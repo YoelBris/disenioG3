@@ -1,0 +1,28 @@
+﻿@using System.Security.Claims
+@using estacionamientos.Models
+
+@{
+    ViewData["Title"] = "Inicio";
+    
+    // Redirigir usuarios no autenticados al login
+    if (!(User.Identity?.IsAuthenticated ?? false))
+    {
+        Context.Response.Redirect("/Account/Login");
+        return;
+    }
+    
+    var rol = User.FindFirst(ClaimTypes.Role)?.Value ?? "Usuario";
+    var nombre = User.FindFirst(ClaimTypes.Name)?.Value ?? "Usuario";
+}
+
+<div class="d-flex justify-content-center align-items-center" style="min-height:60vh;">
+    <div class="text-center text-secondary">
+        <h1 class="display-4">Bienvenido/a @nombre</h1>
+        
+        @* --- Card de gestión de turno para Playero (modularizado) --- *@
+        <partial name="_PlayeroTurnoCard" />
+        
+        @* --- Aquí se pueden agregar más cards o funcionalidades según el rol --- *@
+        @* Por ejemplo: cards para Administrador, Conductor, etc. *@
+    </div>
+</div>

@@ -1,0 +1,124 @@
+@model estacionamientos.ViewModels.ServiciosViewModel
+
+@{
+    ViewData["Title"] = "Servicios disponibles";
+}
+
+<form asp-action="AsignarServicios" asp-route-plyID="@Model.PlayaID"
+      method="post"
+      class="container d-flex flex-column gap-3 align-items-center"
+      style="max-width:1000px;">
+      
+    <div class="mb-3 text-center">
+      <h1 class="display-6 fw-semibold">@ViewData["Title"]</h1>
+      <h5 class="text-muted">@Model.PlayaNom</h5>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @for (int i = 0; i < Model.ServiciosDisponibles.Count; i++)
+        {
+            var servicio = Model.ServiciosDisponibles[i];
+            bool seleccionado = Model.ServiciosAsignados.Contains(servicio.SerID);
+            string cid = $"ser_{servicio.SerID}";
+
+            // Asignación de icono dependiendo del SerID
+            string icon = "bi-cart-check-fill"; // Icono predeterminado
+
+            // Elegir icono según el SerID
+            if (servicio.SerID == 1) icon = "bi-bucket-fill";
+            else if (servicio.SerID == 2) icon = "bi-wrench";
+            else if (servicio.SerID == 3) icon = "bi-fuel-pump";
+            else if (servicio.SerID == 4) icon = "bi-bookmark-check-fill";
+            else if (servicio.SerID == 5) icon = "bi-car-front-fill";
+            else if (servicio.SerID == 6) icon = "bi-car-front-fill";
+            else if (servicio.SerID == 7) icon = "bi-car-front-fill";
+            else if (servicio.SerID == 8) icon = "bi-car-front-fill";
+            else if (servicio.SerID == 9) icon = "bi-car-front-fill";
+
+            <div class="col">
+                <label class="card servicio-card d-flex gap-3 flex-row align-items-center px-3 py-2 w-100"
+                       style="cursor:pointer; min-height: 150px; max-height: 200px; width: 100%; height: auto;">
+                    <input type="checkbox"
+                           id="@cid"
+                           name="ServiciosAsignados"
+                           value="@servicio.SerID"
+                           class="form-check-input me-2"
+                           @(seleccionado ? "checked" : "") />
+
+                    <div class="d-flex align-items-center gap-3 flex-grow-1">
+                        <i class="bi @icon fs-3 text-primary"></i>
+                        <div class="text-center flex-grow-1">
+                            <h5 class="card-title mb-1">@servicio.SerNom</h5>
+                            <p class="m-0 text-muted small">@servicio.SerDesc</p>
+                        </div>
+                    </div>
+                </label>
+            </div>
+        }
+    </div>
+
+    <input type="hidden" name="PlayaID" value="@Model.PlayaID" />
+
+    <div class="d-flex w-100 mt-4 gap-2">
+        <button type="submit" class="btn btn-primary flex-fill" id="btnGuardar">Guardar</button>
+        <a asp-controller="PlayaEstacionamiento" asp-action="Index" class="btn btn-outline-secondary flex-fill">Cancelar</a>
+    </div>
+</form>
+
+<style>
+/* Tarjeta base */
+.servicio-card {
+    transition: all .2s ease-in-out;
+    border: 1px solid var(--bs-border-color);
+    border-radius: .75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 150px;  /* Altura mínima */
+    max-height: 200px;  /* Altura máxima para asegurarse de que no crezca demasiado */
+    width: 100%;  /* Asegura que ocupe todo el ancho disponible */
+}
+
+/* No seleccionado */
+.servicio-card:not(:has(input:checked)) {
+    opacity: .6;
+    background-color: var(--bs-light);
+}
+
+/* Seleccionado */
+.servicio-card:has(input:checked) {
+    opacity: 1;
+    background-color: var(--bs-primary-bg-subtle);
+    box-shadow: 0 0 0 .2rem rgba(var(--bs-primary-rgb), .2);
+    border-color: rgba(var(--bs-primary-rgb), .5);
+}
+
+/* Asegurar que las tarjetas tengan un contenido alineado y consistente */
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+</style>
+
+@section Scripts {
+<script>
+  // Fallback para navegadores sin :has()
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.servicio-card').forEach(c => {
+      const chk = c.querySelector('input[type="checkbox"]');
+      if (!chk) return;
+      function sync() {
+        if (chk.checked) {
+          c.classList.add('is-on');
+        } else {
+          c.classList.remove('is-on');
+        }
+      }
+      sync();
+      chk.addEventListener('change', sync);
+    });
+  });
+</script>
+}

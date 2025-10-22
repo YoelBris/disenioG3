@@ -1,0 +1,71 @@
+@model estacionamientos.Models.TarifaServicio
+@{
+    ViewData["Title"] = "Nueva tarifa";
+}
+
+<div class="container">
+    <h2 class="mb-4">Nueva tarifa</h2>
+
+    <form asp-action="Create" method="post" class="card p-4 shadow-sm">
+        <div class="mb-3">
+            <label class="form-label">Playa</label>
+            <input type="hidden" asp-for="PlyID" />
+            <input type="text" class="form-control bg-light fw-bold" value="@ViewBag.PlayaNombre" readonly />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="SerID" class="form-label">Servicio</label>
+            <select asp-for="SerID" class="form-select" asp-items="ViewBag.SerID">
+                <option value="">-- Seleccione un servicio --</option>
+            </select>
+            <span asp-validation-for="SerID" class="text-danger"></span>
+        </div>
+
+
+        <div class="mb-3">
+            <label asp-for="ClasVehID" class="form-label">Clase de vehículo</label>
+            <select asp-for="ClasVehID" class="form-select" asp-items="ViewBag.ClasVehID"></select>
+            <span asp-validation-for="ClasVehID" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="TasFecIni" class="form-label">Vigencia desde</label>
+            <input asp-for="TasFecIni" type="date" class="form-control" />
+            <span asp-validation-for="TasFecIni" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="TasMonto" class="form-label">Monto</label>
+            <input asp-for="TasMonto" class="form-control" id="monto" value="0.00" onfocus="clearValue(this)" />
+            <span asp-validation-for="TasMonto" class="text-danger"></span>
+        </div>
+
+        @* 🔴 Errores globales *@
+        @if (!ViewData.ModelState.IsValid && ViewData.ModelState[""]?.Errors.Count > 0)
+        {
+            <div class="alert alert-danger">
+                @foreach (var err in ViewData.ModelState[""].Errors)
+                {
+                    <p>@err.ErrorMessage</p>
+                }
+            </div>
+        }
+        
+        <div class="d-flex w-100 mt-4 gap-2">
+            <button type="submit" class="btn btn-primary flex-fill" id="btnGuardar">Guardar cambios</button>
+            <a asp-controller="TarifaServicio"
+               asp-action="Index"
+               asp-route-plyID="@Model.PlyID"   
+               class="btn btn-outline-secondary flex-fill">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Función para limpiar el valor cuando el campo recibe el foco
+    function clearValue(input) {
+        if (input.value === "0.00") {
+            input.value = ""; // Borra el valor si es 0.00
+        }
+    }
+</script>

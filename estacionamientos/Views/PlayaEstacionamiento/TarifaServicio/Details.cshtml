@@ -1,0 +1,48 @@
+@model estacionamientos.Models.TarifaServicio
+
+@{
+    ViewData["Title"] = "Detalles de tarifa";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Detalles de tarifa</h2>
+    <a asp-action="Index"
+       asp-route-plyID="@Model.PlyID"
+       class="btn btn-outline-secondary">
+       <i class="fa-solid fa-arrow-left"></i> Volver
+       </a>
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Playa</dt>
+    <dd class="col-sm-9">@Model.ServicioProveido.Playa.PlyNom</dd>
+
+    <dt class="col-sm-3">Servicio</dt>
+    <dd class="col-sm-9">@Model.ServicioProveido.Servicio.SerNom</dd>
+
+    <dt class="col-sm-3">Clase vehículo</dt>
+    <dd class="col-sm-9">@Model.ClasificacionVehiculo.ClasVehTipo</dd>
+
+    <dt class="col-sm-3">Vigencia</dt>
+    <dd class="col-sm-9">
+        @Model.TasFecIni.ToShortDateString()
+        @if (Model.TasFecFin != null)
+        {
+            <span>- @Model.TasFecFin?.ToShortDateString()</span>
+        }
+        else
+        {
+            <span class="badge bg-success">Vigente</span>
+        }
+    </dd>
+
+    <dt class="col-sm-3">Monto</dt>
+    <dd class="col-sm-9">$@Model.TasMonto</dd>
+</dl>
+
+<a asp-action="Edit"
+   asp-route-plyID="@Model.PlyID"
+   asp-route-serID="@Model.SerID"
+   asp-route-clasVehID="@Model.ClasVehID"
+   asp-route-tasFecIni="@Model.TasFecIni"
+   class="btn btn-primary">Editar</a>

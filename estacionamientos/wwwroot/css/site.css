@@ -1,0 +1,134 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 0;
+}
+
+/* place­holders en floating labels */
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder,
+.form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+/* estado genérico de “no seleccionado” */
+.not-selected {
+  opacity: 0.4;
+}
+
+/* dot verde titilante (turno activo) */
+.dot-live {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #28a745; /* verde Bootstrap */
+  margin-right: 6px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+
+/* validación */
+span.field-validation-error,
+span.text-danger[data-valmsg-for] {
+  display: block;
+  margin-top: .25rem;
+  font-size: .875rem;        /* tamaño chico (~14px) */
+  line-height: 1.25;
+  color: #dc3545;            /* rojo Bootstrap */
+  font-weight: 400;
+}
+
+/* place­holders sin error */
+span.field-validation-valid,
+.validation-summary-valid {
+  display: none;
+}
+
+/* resumen de validación */
+.validation-summary-errors {
+  font-size: .875rem;
+}
+.validation-summary-errors li {
+  margin-bottom: .25rem;
+}
+
+/* === Métodos de Pago (versión con tarjetas) === */
+
+/* tarjeta base */
+.pago-card {
+  transition: all .2s ease-in-out;
+  border: 1px solid var(--bs-border-color);
+  border-radius: .75rem;
+}
+
+/* no seleccionado */
+.pago-card:not(:has(input:checked)) {
+  opacity: .6;
+  background-color: var(--bs-light);
+}
+
+/* seleccionado */
+.pago-card:has(input:checked) {
+  opacity: 1;
+  background-color: var(--bs-primary-bg-subtle);
+  box-shadow: 0 0 0 .2rem rgba(var(--bs-primary-rgb), .2);
+  border-color: rgba(var(--bs-primary-rgb), .5);
+}
+
+/* Quitar borde raro al enfocar inválido */
+select:invalid:focus {
+    box-shadow: none;
+}
+
+/* Forzar que el tooltip nativo aparezca abajo (Chrome/Edge) */
+select:invalid:focus::-webkit-validation-bubble,
+select:invalid:focus::-webkit-validation-bubble-message {
+    position: absolute !important;
+    transform: translateY(30px); /* mueve hacia abajo */
+}
+
+/* Ajuste Firefox: quita borde rojo/azul automático */
+select:invalid:focus::-moz-ui-invalid {
+    box-shadow: none !important;
+}
+
+
+/* Fija la primera columna (Servicio) al scrollear */
+.sticky-col {
+    position: sticky;
+    top: 0;             /* 👈 siempre visible al scrollear vertical */
+    left: 0;            /* opcional: fijo al scrollear horizontal */
+    z-index: 2;         /* asegura que quede por encima de otras celdas */
+    background: #f8f9fa; /* fondo consistente (Bootstrap table-light) */
+}
